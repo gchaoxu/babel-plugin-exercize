@@ -1,4 +1,4 @@
-const acorn = require("acorn");
+const acorn = require('acorn');
 
 const Parser = acorn.Parser;
 

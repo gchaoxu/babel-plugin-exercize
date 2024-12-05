@@ -21,19 +21,23 @@ const sourceCode = `
 `;
 
 const ast = parser.parse(sourceCode, {
-    sourceType: 'unambiguous',
-    plugins: ['jsx']
+  sourceType: 'unambiguous',
+  plugins: ['jsx'],
 });
 
-const targetCalleeName = ['log', 'info', 'error', 'debug'].map(item => `console.${item}`);
+const targetCalleeName = ['log', 'info', 'error', 'debug'].map(
+  (item) => `console.${item}`
+);
 traverse(ast, {
-    CallExpression(path, state) {
-        const calleeName = generate(path.node.callee).code;
-         if (targetCalleeName.includes(calleeName)) {
-            const { line, column } = path.node.loc.start;
-            path.node.arguments.unshift(types.stringLiteral(`filename: (${line}, ${column})`))
-        }
+  CallExpression(path, state) {
+    const calleeName = generate(path.node.callee).code;
+    if (targetCalleeName.includes(calleeName)) {
+      const { line, column } = path.node.loc.start;
+      path.node.arguments.unshift(
+        types.stringLiteral(`filename: (${line}, ${column})`)
+      );
     }
+  },
 });
 
 const { code, map } = generate(ast);

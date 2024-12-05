@@ -1,5 +1,5 @@
 const { transformFromAstSync } = require('@babel/core');
-const  parser = require('@babel/parser');
+const parser = require('@babel/parser');
 const eqLintPlugin = require('./plugin/eq-lint');
 
 const sourceCode = `
@@ -17,16 +17,20 @@ const four = /* foo */ add(2, 2);
 `;
 
 const ast = parser.parse(sourceCode, {
-    sourceType: 'unambiguous',
-    comments: true
+  sourceType: 'unambiguous',
+  comments: true,
 });
 
 const { code } = transformFromAstSync(ast, sourceCode, {
-    plugins: [[eqLintPlugin, {
-        fix: true
-    }]],
-    comments: true
+  plugins: [
+    [
+      eqLintPlugin,
+      {
+        fix: true,
+      },
+    ],
+  ],
+  comments: true,
 });
 
 console.log(code);
-

@@ -16,28 +16,26 @@ add(c, d);
 `;
 
 const ast = parser.parse(sourceCode, {
-    plugins: ['literal', 'guangKeyword']
+  plugins: ['literal', 'guangKeyword'],
 });
 
 traverse(ast, {
-    Program(path) {
-       Object.entries(path.scope.bindings).forEach(([id, binding]) => {
-        if (!binding.referenced) {
-            binding.path.remove();
-        }
-       });
+  Program(path) {
+    Object.entries(path.scope.bindings).forEach(([id, binding]) => {
+      if (!binding.referenced) {
+        binding.path.remove();
+      }
+    });
 
-        // console.log(path.scope);
-        // path.node.body.unshift(template('const b = 2;').body[0]);
-    },
-    FunctionDeclaration(path) {
-        // console.log(path.scope); 
-    }
+    // console.log(path.scope);
+    // path.node.body.unshift(template('const b = 2;').body[0]);
+  },
+  FunctionDeclaration(path) {
+    // console.log(path.scope);
+  },
 });
 
 // console.log(ast);
-const { code, map} = generate(ast, sourceCode, 'foo.js');
+const { code, map } = generate(ast, sourceCode, 'foo.js');
 console.log(code);
 console.log(map);
-
-

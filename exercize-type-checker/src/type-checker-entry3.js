@@ -1,5 +1,5 @@
 const { transformFromAstSync } = require('@babel/core');
-const  parser = require('@babel/parser');
+const parser = require('@babel/parser');
 const typeCheckerPlugin = require('./plugin/type-checker3');
 
 const sourceCode = `
@@ -10,16 +10,20 @@ const sourceCode = `
 `;
 
 const ast = parser.parse(sourceCode, {
-    sourceType: 'unambiguous',
-    plugins: ['typescript']
+  sourceType: 'unambiguous',
+  plugins: ['typescript'],
 });
 
 const { code } = transformFromAstSync(ast, sourceCode, {
-    plugins: [[typeCheckerPlugin, {
-        fix: true
-    }]],
-    comments: true
+  plugins: [
+    [
+      typeCheckerPlugin,
+      {
+        fix: true,
+      },
+    ],
+  ],
+  comments: true,
 });
 
 // console.log(code);
-
